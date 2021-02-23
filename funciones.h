@@ -4,7 +4,6 @@
 #include <ctype.h>
 #include <sys/stat.h>
 #include "estructuras.h"
-#include <windows.h>
 
 //Entrada: No recibe
 //Salida: Un entero, 0 para windows, 1 Para Linux o MAC
@@ -14,6 +13,7 @@ int detectarSO()
 {
 #if defined(_WIN32)
 #define SISTEMA 0
+#include <windows.h>
 #else
 #define SISTEMA 1
 #endif
