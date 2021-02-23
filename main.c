@@ -7,6 +7,8 @@ int BES();
 
 int main()
 {
+    //Se utiliza para que acepte los simbolos especiales (tildes, cuadros, etc), lo que hace es cambiar la codificacion a utf-8 de consola windows
+    SetConsoleOutputCP(65001);
     //Se crea un flag para entrar al bucle que permitirá ejecutar el programa hasta que el usuario indique lo contrario
     int flag = 1;
     while (flag == 1)
@@ -14,9 +16,9 @@ int main()
         BES();
         printf("¿Desea volver a utilizar el programa?\n");
         printf("1. No\n");
-        printf("2. Sí\n");
+        printf("2. Si\n");
         //El valor de flag dependerá directamente de la desición del usuario, pudiendo solo ingresar 1 o 2
-        flag = pedirNumero("Ingrese su opción aquí (1/2): ", 1, 2) - 1;
+        flag = pedirNumero("Ingrese su opcion aqui (1/2): ", 1, 2) - 1;
         limpiarConsola();
     }
     //Mensaje de despedida cuando el ususario decida salir del programa
@@ -75,7 +77,7 @@ int BES()
                 if (cantidadDeSolucionesFinal >= 2)
                 {
                     i = 33554433;
-                    printf("No es una instrucción unica\n");
+                    printf("No es una instruccion unica\n");
                 }
                 else
                 {
@@ -95,7 +97,7 @@ int BES()
             // Se imprime que tipo de instruccion se ha ingresado y se notifica el fin de la ejecucion
             if (cantidadDeSolucionesFinal == 1)
             {
-                printf("Es una instrucción unica\n");
+                printf("Es una instruccion unica\n");
             }
             else if (cantidadDeSolucionesFinal == 0)
             {
