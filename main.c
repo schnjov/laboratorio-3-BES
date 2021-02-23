@@ -7,11 +7,7 @@ int BES();
 
 int main()
 {
-    //Se utiliza para que acepte los simbolos especiales (tildes, cuadros, etc), lo que hace es cambiar la codificacion a utf-8 de consola windows
-    if (detectarSO() == 0)
-    {
-        SetConsoleOutputCP(65001);
-    }
+    SetConsoleOutputCP(65001);
     //Se crea un flag para entrar al bucle que permitirá ejecutar el programa hasta que el usuario indique lo contrario
     int flag = 1;
     while (flag == 1)
@@ -28,7 +24,6 @@ int main()
     printf("Hasta luego\n\n\n\n");
 }
 
-
 //Función BES, la cual realiza la busqueda en espacios de soluciones
 int BES()
 {
@@ -41,7 +36,7 @@ int BES()
     matriz filas;
     matriz columnas;
     struct stat buffer;
-    int ** matrizSolucion = (int **)malloc(sizeof(int *) * 5);
+    int **matrizSolucion = (int **)malloc(sizeof(int *) * 5);
     for (int i = 0; i < 5; i++)
     {
         matrizSolucion[i] = (int *)malloc(sizeof(int) * 5);
@@ -51,30 +46,31 @@ int BES()
     pedirNombreDeArchivos(2, nombreColumnas);
     leerArchivo(nombreFilas, &filas);
     leerArchivo(nombreColumnas, &columnas);
-    
+
     //Se verifica que se hayan podido leer los archivos, es decir que existen en el directorio especificado
     if (filas.sePudo == 1 && columnas.sePudo == 1)
     {
         //Se verifica que el archivo cumpla las caracteristicas de entrada
         if (verificarEntradaArchivo(filas.filas, entradasPosibles) == 1 && verificarEntradaArchivo(columnas.filas, entradasPosibles) == 1)
         {
-            printf("Los archivos cumplen las entradas\n");  
+            printf("Los archivos cumplen las entradas\n");
             //--------Se genera el conjunto general de soluciones si aun no se ha creado(en un archivo de texto plano llamado soluciones.txt)-------
-            
+
             //Se verifica si el archivo no existe para crearlo
-            if (stat("soluciones.txt",&buffer) != 0)
+            if (stat("soluciones.txt", &buffer) != 0)
             {
                 printf("Generando conjunto general de soluciones\nUn momento por favor...\n");
                 crearConjuntoDeSolucionesInicial();
                 limpiarConsola();
-            }else
+            }
+            else
             {
                 printf("El conjunto general de soluciones ya se encuentra creado\n");
             }
             //-----------Se realiza la busqueda en el espacio de soluciones creado en el archivo soluciones.txt------------
             printf("Filtrando soluciones generales para generar soluciones exactas...\n");
             FILE *archivo = fopen("soluciones.txt", "r"); // Se abre el archivo con las soluciones generales
-            for (int i = 0; i < 33554432; i++) //Se itera hasta ese numero porque es la cantidad de posibles combinaciones para las soluciones
+            for (int i = 0; i < 33554432; i++)            //Se itera hasta ese numero porque es la cantidad de posibles combinaciones para las soluciones
             {
                 //Se restringe la busqueda a maximo 2 soluciones
                 if (cantidadDeSolucionesFinal >= 2)
@@ -89,8 +85,8 @@ int BES()
                     //Se verifica que la solucion cumpla las restricciones de filas y columnas
                     if (verificarSolucion(matrizSolucion, filas.filas, columnas.filas) == 1)
                     {
-                        //Se muestra la solución y se le suma 1 a la cantidad de soluciones encontradas 
-                        printf("Fue necesario revisar %d posibles soluciones para llegar a esta\n",i+1);
+                        //Se muestra la solución y se le suma 1 a la cantidad de soluciones encontradas
+                        printf("Fue necesario revisar %d posibles soluciones para llegar a esta\n", i + 1);
                         mostrarSolucion(matrizSolucion, filas, columnas);
                         printf("------------------------------------------------------\n");
                         cantidadDeSolucionesFinal++;

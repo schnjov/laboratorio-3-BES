@@ -4,6 +4,11 @@
 #include <ctype.h>
 #include <sys/stat.h>
 #include "estructuras.h"
+#if defined(_WIN32)
+#include <windows.h>
+#else
+#include "eliminar_error_windows.h"
+#endif
 
 //Entrada: No recibe
 //Salida: Un entero, 0 para windows, 1 Para Linux o MAC
@@ -13,7 +18,6 @@ int detectarSO()
 {
 #if defined(_WIN32)
 #define SISTEMA 0
-#include <windows.h>
 #else
 #define SISTEMA 1
 #endif
@@ -45,27 +49,30 @@ void limpiarConsola()
 //Salida: un entero, que es el numero ingresado por el usuario
 //Funcion: Pide un entero hasta que se ingrese un numero y que esté dentro del rango esperado
 
-int pedirNumero(char* string,int cotaInferior,int cotaSuperior){
-    printf("%s ",string);
+int pedirNumero(char *string, int cotaInferior, int cotaSuperior)
+{
+    printf("%s ", string);
     char numero[5];
     fflush(stdin);
-    fgets(numero,5,stdin);
+    fgets(numero, 5, stdin);
     int longitud = strlen(numero);
-    if(numero[longitud-1] == '\n'){
-        numero[longitud-1] = '\0';
+    if (numero[longitud - 1] == '\n')
+    {
+        numero[longitud - 1] = '\0';
     }
-    for (int i = 0; i < longitud-1; i++)
+    for (int i = 0; i < longitud - 1; i++)
     {
         if (!(isdigit(numero[i])))
-        {   
+        {
             printf("Ingrese un numero correcto, por favor vuelva a intentarlo\n");
-            return pedirNumero(string,cotaInferior,cotaSuperior);
+            return pedirNumero(string, cotaInferior, cotaSuperior);
         }
     }
     int numeroFinal = atoi(numero);
-    if (numeroFinal < cotaInferior || numeroFinal > cotaSuperior){
+    if (numeroFinal < cotaInferior || numeroFinal > cotaSuperior)
+    {
         printf("Ingrese un numero correcto, por favor vuelva a intentarlo\n");
-        return pedirNumero(string,cotaInferior,cotaSuperior);
+        return pedirNumero(string, cotaInferior, cotaSuperior);
     }
     return numeroFinal;
 }
@@ -116,7 +123,7 @@ int **crearFilas()
 //Entrada: Un char que representa el nombre del archivo que contiene las instrucciones y una estructura de tipo matriz
 //         en la cual se guardaran las instrucciones, la cual es pasada por referencia
 //Salida: No entrega
-//Funcion: Intenta leer un archivo con instrucciones, si es posible guarda las instrucciones en la variable lectura y deja como 
+//Funcion: Intenta leer un archivo con instrucciones, si es posible guarda las instrucciones en la variable lectura y deja como
 //         1 el atributo sePudo de la estructura lectura, sino se pudo deja este atributo como 0.
 
 void leerArchivo(char *nombreArchivo, matriz *lectura)
@@ -128,7 +135,7 @@ void leerArchivo(char *nombreArchivo, matriz *lectura)
     {
         lectura->filas[i] = (int *)malloc(sizeof(int) * 2);
     }
-    
+
     if (!(archivo == NULL))
     {
         lectura->sePudo = 1;
@@ -445,7 +452,6 @@ int verificarInstruccion(int *vector, int *instruccion)
         //Esto pasa en cualquier caso que no sea instruccion[0] == 0
         default:
 
-
             switch (vector[0])
             {
 
@@ -613,18 +619,19 @@ void mostrarSolucion(int **solucion, matriz filas, matriz columnas)
     printf("\n------------------------------\n");
     for (int i = 0; i < 5; i++)
     {
-        strcpy(fila,"");
+        strcpy(fila, "");
         for (int j = 0; j < 5; j++)
         {
             if (solucion[i][j] == 1)
             {
-                strcat(fila,"▣");
-            }else
-            {
-                strcat(fila,"□");
+                strcat(fila, "▣");
             }
-            strcat(fila,"  | ");
+            else
+            {
+                strcat(fila, "□");
+            }
+            strcat(fila, "  | ");
         }
-        printf(" %d%d | %s\n------------------------------\n",filas.filas[i][0], filas.filas[i][1],fila);
+        printf(" %d%d | %s\n------------------------------\n", filas.filas[i][0], filas.filas[i][1], fila);
     }
 }
