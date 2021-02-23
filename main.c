@@ -7,7 +7,12 @@ int BES();
 
 int main()
 {
+<<<<<<< Updated upstream
     SetConsoleOutputCP(65001);
+=======
+    //Se utiliza para que acepte los simbolos especiales (tildes, cuadros, etc), lo que hace es cambiar la codificacion a utf-8 de consola windows
+        SetConsoleOutputCP(65001);
+>>>>>>> Stashed changes
     //Se crea un flag para entrar al bucle que permitirá ejecutar el programa hasta que el usuario indique lo contrario
     int flag = 1;
     while (flag == 1)
